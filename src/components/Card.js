@@ -10,7 +10,11 @@ export default function CardMovie(props){
   const [chosenMovie , setChosenMovie]=useState();
 
   const handleClose = () => setShow(false);
-  const handleShow = (movie) => setShow(true);
+  const handleShow = (movie) => {
+    setChosenMovie(movie);
+        setShow(true);
+  }
+    
 
 
     return (
