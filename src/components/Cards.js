@@ -10,12 +10,12 @@ export default function Cards(props){
         <>
           <container fluid className="main-container">
             <div className="d-flex flex-wrap
-            justify-content-between w-75 ms-auto me-auto">
+            justify-content-between w-75 ms-auto me-auto">  
         {
             props.movies.map((movie)=>{
                 return (
                     <>
-                    <CardMovie  key={movie.id} movie={movie}/>
+                    <CardMovie  key={movie.id} movie={movie}  updateMovie={props.updateMovie}/>
                     </>
                 )
     
