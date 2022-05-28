@@ -30,10 +30,29 @@ import axios from 'axios';
     //     setMovies(movieData);
     //     console.log(1,"after updating");
     }
+    function updateMovie(newMovie , id){
+        let updateMovies=movies.map((movie)=>{
+            if(movie.id === id){
+                movie.comment = newMovie.userComment;
+                return movie;
+
+            }else{
+                return movie;
+            }
+
+        })
+        setMovies(updateMovies);
+    }
+
+
+
+
 
     useEffect(()=>{
         getMovies();
     }, [])
+
+    
 
 
 
@@ -46,7 +65,7 @@ import axios from 'axios';
         <br/>
         <Button variant="success">Get Movie</Button>
         {
-              (movies.length > 0) &&  <Cards movies={movies}/>
+              (movies.length > 0) &&  <Cards movies={movies}  updateMovie={updateMovie}/>
         }
        
         

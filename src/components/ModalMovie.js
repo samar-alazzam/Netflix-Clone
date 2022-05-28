@@ -1,8 +1,48 @@
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form'
+import Form from 'react-bootstrap/Form';
+import React , { useRef } from 'react';
+
+
+
+
 export default function ModalMovie(props){
+  let commentRef= useRef();
+
+  function handleComment(e){
+    e.preventDefault();
+    let userComment= commentRef.current.value;
+    console.log({userComment});
+    let newMovie={...props.chosenMovie, userComment}
+    props.updateMovie(newMovie , props.chosenMovie.id);
+  }
+async function handleAddFav(e , movie){
+    e.preventDefault();
+    let url= "https://movie-j-01.herokuapp.com/addMovie";
+    let data={
+      title:movie.title ,
+      overview:movie.overview,
+      poster_path:movie.poster_path,
+      comment:movie.comment
+    }
+    let response = await fetch (url,{
+      method : 'POST',
+      Header:{
+        'content - Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+      mode: 'cors'
+    })
+    let addedMovie= await response.json();
+    console.log("addedMovie" , addedMovie);
+  }
+  
+
+  
+
+
+
     return(
     <>
     
@@ -17,15 +57,19 @@ export default function ModalMovie(props){
         <Form>
   <Form.Group className="mb-3" controlId="formBasicEmail">
     <Form.Label>comment</Form.Label>
-    <Form.Control type="text" placeholder="Enter your comment" />
+    <Form.Control ref={commentRef} type="text" placeholder="Enter your comment" />
     <Form.Text className="text-muted">
       add your own comment
     </Form.Text>
   </Form.Group>
 
   
-  <Button variant="primary" type="submit">
-    Submit
+  <Button variant="primary" type="submit" onClick={(e)=>handleComment(e)}>
+    Submit comment
+  </Button>
+
+  <Button variant="primary" type="submit" onClick={(e)=>{handleAddFav(e , props.chosenMovie)}}>
+    Add to favorites
   </Button>
 </Form>
         </Modal.Body>
